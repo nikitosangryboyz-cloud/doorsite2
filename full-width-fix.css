@@ -1,0 +1,91 @@
+/* DOORSITE2 — FULL WIDTH SECTION FIX
+   Section backgrounds must run edge-to-edge.
+   Inner content stays constrained by the page container.
+*/
+
+html,body{overflow-x:hidden}
+
+/* The outer page must not clip section backgrounds. */
+.page{
+  max-width:none!important;
+  width:100%!important;
+  margin:0!important;
+  padding-left:0!important;
+  padding-right:0!important;
+}
+
+/* Full-bleed sections. */
+.page > section,
+.page > .section,
+.page > header,
+.page > footer{
+  width:100%!important;
+  max-width:none!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+
+/* Keep actual content aligned inside a readable column. */
+.page > section > .section-head,
+.page > section > .proof-grid,
+.page > section > .door-tools,
+.page > section > .door-grid,
+.page > section > .rec-grid,
+.page > section > .service-grid,
+.page > section > .process-gallery,
+.page > section > .showroom-grid,
+.page > section > .review-grid,
+.page > section > .faq-wrap,
+.page > section > .price-breakdown,
+.page > section > .calc-grid,
+.page > section > .about,
+.page > section > .section-inner,
+.page > section > .container{
+  width:min(1440px,calc(100% - 48px))!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+/* Header stays contained as a UI element, while section backgrounds remain full width. */
+.page > .nav{
+  width:min(1440px,calc(100% - 48px))!important;
+  margin-left:auto!important;
+  margin-right:auto!important;
+}
+
+/* Hero itself is a full-width color/image field. */
+.page > .hero{
+  width:100%!important;
+  max-width:none!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  border-radius:0!important;
+}
+
+/* Hero copy keeps its own comfortable horizontal inset. */
+.hero-copy{left:max(24px,calc((100vw - 1440px)/2 + 24px))!important}
+.hero-bottom{left:max(24px,calc((100vw - 1440px)/2 + 24px))!important;right:max(24px,calc((100vw - 1440px)/2 + 24px))!important}
+
+@media(max-width:700px){
+  .page > section > .section-head,
+  .page > section > .proof-grid,
+  .page > section > .door-tools,
+  .page > section > .door-grid,
+  .page > section > .rec-grid,
+  .page > section > .service-grid,
+  .page > section > .process-gallery,
+  .page > section > .showroom-grid,
+  .page > section > .review-grid,
+  .page > section > .faq-wrap,
+  .page > section > .price-breakdown,
+  .page > section > .calc-grid,
+  .page > section > .about,
+  .page > section > .section-inner,
+  .page > section > .container,
+  .page > .nav{
+    width:calc(100% - 28px)!important;
+  }
+  .page > .hero{width:100%!important}
+  .hero-copy{left:0!important;padding-left:18px!important;padding-right:18px!important}
+  .hero-bottom{left:18px!important;right:18px!important}
+}
