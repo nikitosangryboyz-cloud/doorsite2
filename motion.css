@@ -1,0 +1,107 @@
+/* DOORSITE2 — MOTION SYSTEM
+   Intentional motion: cinematic hero, scroll choreography, image reveals,
+   tactile cards. No animation for animation's sake.
+*/
+
+:root{
+  --motion-ease:cubic-bezier(.16,1,.3,1);
+  --motion-slow:900ms;
+  --motion-base:650ms;
+}
+
+/* Initial states are activated only when JS confirms motion is available. */
+.motion-ready .hero .kicker,
+.motion-ready .hero h1,
+.motion-ready .hero p,
+.motion-ready .hero .actions,
+.motion-ready .hero-bottom{
+  opacity:0;
+  transform:translate3d(0,34px,0);
+}
+.motion-ready .hero .kicker{transition:opacity .65s var(--motion-ease),transform .75s var(--motion-ease)}
+.motion-ready .hero h1{transition:opacity .8s var(--motion-ease),transform .9s var(--motion-ease)}
+.motion-ready .hero p{transition:opacity .7s var(--motion-ease),transform .75s var(--motion-ease)}
+.motion-ready .hero .actions{transition:opacity .7s var(--motion-ease),transform .75s var(--motion-ease)}
+.motion-ready .hero-bottom{transition:opacity .8s var(--motion-ease),transform .8s var(--motion-ease)}
+.motion-ready .hero.is-loaded .kicker,
+.motion-ready .hero.is-loaded h1,
+.motion-ready .hero.is-loaded p,
+.motion-ready .hero.is-loaded .actions,
+.motion-ready .hero.is-loaded .hero-bottom{opacity:1;transform:none}
+.motion-ready .hero.is-loaded h1{transition-delay:.08s}
+.motion-ready .hero.is-loaded p{transition-delay:.22s}
+.motion-ready .hero.is-loaded .actions{transition-delay:.34s}
+.motion-ready .hero.is-loaded .hero-bottom{transition-delay:.46s}
+
+.hero-bg{transform:scale(1.035);transition:transform 1.4s var(--motion-ease)}
+.hero.is-loaded .hero-bg{transform:scale(1.015)}
+
+/* Scroll-controlled hero depth. JS writes CSS variables. */
+.hero[data-scroll-motion]{--hero-y:0px;--hero-scale:1;--hero-fade:1}
+.hero[data-scroll-motion] .hero-bg{transform:scale(calc(1.015 + var(--hero-scale))) translate3d(0,var(--hero-y),0)}
+.hero[data-scroll-motion] .hero-copy{opacity:var(--hero-fade);transform:translate3d(0,calc(-50% + var(--hero-copy-y)),0)!important}
+.hero[data-scroll-motion] .hero-bottom{opacity:var(--hero-fade);transform:translate3d(0,var(--hero-bottom-y),0)}
+
+/* Section entrances. */
+.motion-reveal{opacity:0;transform:translate3d(0,42px,0);transition:opacity .75s var(--motion-ease),transform .9s var(--motion-ease)}
+.motion-reveal.is-visible{opacity:1;transform:none}
+.motion-reveal[data-delay="1"]{transition-delay:70ms}
+.motion-reveal[data-delay="2"]{transition-delay:140ms}
+.motion-reveal[data-delay="3"]{transition-delay:210ms}
+
+/* Catalog: image depth instead of generic lift. */
+.door-card{position:relative;overflow:hidden}
+.door-card .door-visual{transition:transform .8s var(--motion-ease)}
+.door-card .door-leaf{transition:transform .8s var(--motion-ease),box-shadow .8s var(--motion-ease)}
+.door-card:hover .door-visual{transform:scale(1.018)}
+.door-card:hover .door-leaf{transform:translateX(-50%) translateY(-5px);box-shadow:22px 34px 48px rgba(0,0,0,.27)}
+.door-card-body button{transition:transform .35s var(--motion-ease),color .25s ease}
+.door-card:hover .door-card-body button{transform:translateX(5px);color:var(--accent-dark)}
+
+/* Projects: image reveals and subtle image drift. */
+.rec-card{clip-path:inset(0 0 0 0 round var(--radius-lg));}
+.rec-card img{transform:scale(1.045);transition:transform 1.2s var(--motion-ease),filter 1s ease}
+.rec-card.motion-reveal img{transform:scale(1.10)}
+.rec-card.motion-reveal.is-visible img{transform:scale(1)}
+.rec-card:hover img{transform:scale(1.045)}
+
+/* Process becomes a visual sequence on desktop. */
+@media(min-width:1101px) and (prefers-reduced-motion:no-preference){
+  #process .process-gallery{position:relative;display:grid;grid-template-columns:repeat(4,1fr);align-items:stretch}
+  #process .process-image{min-width:0;transform:translateY(var(--process-y,0px));transition:transform .7s var(--motion-ease)}
+  #process .process-image:nth-child(1){--process-y:0px}
+  #process .process-image:nth-child(2){--process-y:18px}
+  #process .process-image:nth-child(3){--process-y:34px}
+  #process .process-image:nth-child(4){--process-y:50px}
+  #process .process-image img{transform:scale(var(--process-scale,1));transition:transform 1s var(--motion-ease),filter 1s ease}
+  #process .process-image.is-active img{--process-scale:1.035;filter:saturate(1.04)}
+}
+
+/* Showroom / calculator image parallax. */
+[data-parallax-image]{overflow:hidden}
+[data-parallax-image] img{transform:translate3d(0,var(--parallax-y,0px),0) scale(1.04);will-change:transform}
+
+/* Services: active row has a quiet horizontal accent. */
+.service-card{position:relative;overflow:hidden}
+.service-card::after{content:"";position:absolute;left:28px;right:28px;bottom:0;height:1px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .65s var(--motion-ease)}
+.service-card:hover::after{transform:scaleX(1)}
+
+/* Keep all motion accessible. */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .motion-ready .hero .kicker,
+  .motion-ready .hero h1,
+  .motion-ready .hero p,
+  .motion-ready .hero .actions,
+  .motion-ready .hero-bottom{opacity:1!important;transform:none!important}
+}
+
+@media(max-width:700px){
+  .motion-ready .hero .kicker,
+  .motion-ready .hero h1,
+  .motion-ready .hero p,
+  .motion-ready .hero .actions,
+  .motion-ready .hero-bottom{transform:translate3d(0,22px,0)}
+  .door-card:hover .door-leaf{transform:translateX(-50%)}
+  .service-card::after{left:14px;right:14px}
+}
